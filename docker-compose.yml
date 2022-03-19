@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  agoreuein:
+    build: .
+    container_name: agoreuein
+    hostname: agoreuein
+    restart: unless-stopped
+    volumes: 
+      - ./script:/home/agoreuein/script
+    environment:
+      - API_ID=$api_id
+      - API_HASH=$api_hash
+      - MSG=$msg
+      - MY_PHONE_NUMBER=$my_phone_number
