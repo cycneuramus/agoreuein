@@ -47,6 +47,6 @@ Yes, I've made this tiny script run in Docker. There is technically no need for 
 + `export API_ID=<your Telegram API id>` 
 + `export API_HASH=<your Telegram API hash>`
 + `export MY_PHONE_NUMBER=<your Telegram phone number>`
-+ `export MSG=<the message to be send>`
++ `export MSG=<the message to be sent>`
 
 Alternatively, instead of setting environment variables, you may edit `agoreuein.py` directly to add the appropriate values. 

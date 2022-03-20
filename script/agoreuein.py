@@ -74,7 +74,7 @@ async def main():
                 logging.info("Sending message")
                 await send_msg(new_contact.users[0])
 
-            seconds = randint(600, 1800)
+            seconds = randint(300, 1800)
             logging.info(f"Sleeping for {seconds} seconds")
 
             await asyncio.sleep(seconds)
