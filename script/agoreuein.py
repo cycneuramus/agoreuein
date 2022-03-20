@@ -61,6 +61,14 @@ async def send_msg(recipient):
 async def main():
     async with client:
         while True:
+            me = await client.get_me()
+            logging.info("Checking for account restriction")
+
+            if me.restricted:
+                hours = 48
+                logging.error(f"Account restricted, sleeping {hours} hours")
+                await asyncio.sleep(hours * 60 * 60)
+
             await client.connect()
 
             if not await client.is_user_authorized():
