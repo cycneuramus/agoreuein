@@ -54,6 +54,7 @@ async def add_contact(recipient_phone):
 
 
 async def send_msg(recipient):
+    logging.info("Sending message")
     msg_result = await client.send_message(recipient, msg)
     logging.info(msg_result)
 
@@ -61,30 +62,30 @@ async def send_msg(recipient):
 async def main():
     async with client:
         while True:
-            me = await client.get_me()
+
+            if not client.is_connected():
+                await client.connect()
+
+                if not await client.is_user_authorized():
+                    await client.send_code_request(my_phone_number)
+                    await client.sign_in(my_phone_number, input("Enter the code: "))
+
             logging.info("Checking for account restriction")
+            me = await client.get_me()
 
             if me.restricted:
                 hours = 48
                 logging.error(f"Account restricted, sleeping {hours} hours")
                 await asyncio.sleep(hours * 60 * 60)
 
-            await client.connect()
-
-            if not await client.is_user_authorized():
-                await client.send_code_request(my_phone_number)
-                await client.sign_in(my_phone_number, input("Enter the code: "))
-
             recipient_phone = await get_random_recipient()
             new_contact = await add_contact(recipient_phone)
 
             if new_contact is not None:
-                logging.info("Sending message")
                 await send_msg(new_contact.users[0])
 
             seconds = randint(300, 1800)
             logging.info(f"Sleeping for {seconds} seconds")
-
             await asyncio.sleep(seconds)
 
 
