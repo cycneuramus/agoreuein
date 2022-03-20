@@ -38,7 +38,7 @@ async def add_contact(recipient_phone):
     try:
         new_contact = await client(ImportContactsRequest([contact]))
         if "user_id" not in new_contact.stringify():
-            logging.error(f"Failed to add contact {recipient_phone}.")
+            logging.error(f"Failed to add contact {recipient_phone}")
         else:
             return new_contact
 
@@ -47,8 +47,8 @@ async def add_contact(recipient_phone):
         await asyncio.sleep(e.seconds)
 
 
-async def send_msg(new_contact):
-    msg_result = await client.send_message(new_contact.users[0], msg)
+async def send_msg(recipient):
+    msg_result = await client.send_message(recipient, msg)
     logging.info(msg_result)
 
 
@@ -65,7 +65,7 @@ async def main():
             new_contact = await add_contact(recipient_phone)
 
             if new_contact is not None:
-                await send_msg(new_contact)
+                await send_msg(new_contact.users[0])
 
             seconds = randint(600, 1800)
             logging.info(f"Sleeping for {seconds} seconds")

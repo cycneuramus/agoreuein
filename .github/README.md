@@ -12,7 +12,7 @@ This program is not a bot, but uses the Telegram API to sends its messages direc
 
 ## Note on messages
 
-The point of this program is not to harass people, but to engage in civil discourse with those who may be victims of state-sponsored disinformation and propaganda. As such, I would encourage you to refrain from sending inflammatory or unnecessarily polarazing messages.
+The point of this program is not to harass people, but to engage in civil discourse with those who may be victims of state-sponsored disinformation and propaganda. As such, I would encourage you to refrain from sending inflammatory or unnecessarily polarizing messages.
 
 ## Usage
 
