@@ -27,16 +27,22 @@ async def get_random_recipient():
 
 
 async def add_contact(recipient_phone):
+    random_firstname = names.get_first_name()
+    random_lastname = names.get_last_name()
+
     contact = InputPhoneContact(
         client_id=0,
         phone=recipient_phone,
-        first_name=names.get_first_name(),
-        last_name=names.get_last_name(),
+        first_name=random_firstname,
+        last_name=random_lastname,
     )
 
-    # not every phone number is associated with a Telegram account
     try:
         new_contact = await client(ImportContactsRequest([contact]))
+        logging.info(
+            f'Adding {recipient_phone} ("{random_firstname} {random_lastname}")'
+        )
+
         if "user_id" not in new_contact.stringify():
             logging.error(f"Failed to add contact {recipient_phone}")
         else:
@@ -65,6 +71,7 @@ async def main():
             new_contact = await add_contact(recipient_phone)
 
             if new_contact is not None:
+                logging.info("Sending message")
                 await send_msg(new_contact.users[0])
 
             seconds = randint(600, 1800)
