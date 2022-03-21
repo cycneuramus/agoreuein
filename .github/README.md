@@ -8,7 +8,7 @@ Note that not all selected phone numbers will be associated with a Telegram acco
 
 ## WARNING
 
-This program is not a bot, but uses the Telegram API to sends its messages directly from an account that you control. In order for this to work, the program must first add the intended recipient to your contacts. **Contacting people you don't know en-masse is considered to be spam.** It is highly likely that your account will be reported as such and limited for a time. Repeated offences may impose further limits and, ultimately, block your account altogether. For more information, see Telegram's [Spam FAQ](https://telegram.org/faq_spam).
+This program is not a bot, but uses the Telegram API to send its messages directly from an account that you control. In order for this to work, the program must first add the intended recipient to your contacts. **Contacting people you don't know en-masse is considered to be spam.** It is highly likely that your account will be reported as such and limited for a time. Repeated offences may impose further limits and, ultimately, block your account altogether. For more information, see Telegram's [Spam FAQ](https://telegram.org/faq_spam).
 
 ## Note on messages
 
