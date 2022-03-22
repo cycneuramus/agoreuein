@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import asyncio
 import logging
 import os
@@ -13,20 +15,13 @@ logging.basicConfig(
     format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s", level=logging.INFO
 )
 
-api_id = os.environ["API_ID"]
-api_hash = os.environ["API_HASH"]
-my_phone_number = os.environ["MY_PHONE_NUMBER"]
-msg = os.environ["MSG"]
-
-client = TelegramClient(my_phone_number, api_id, api_hash)
-
 
 async def get_random_recipient():
     phone_number_raw = requests.get("https://api.1920.in").json()
     return f"+{phone_number_raw}"
 
 
-async def add_contact(recipient_phone):
+async def add_contact(client, recipient_phone):
     random_firstname = names.get_first_name()
     random_lastname = names.get_last_name()
 
@@ -53,13 +48,21 @@ async def add_contact(recipient_phone):
         await asyncio.sleep(e.seconds)
 
 
-async def send_msg(recipient):
+async def send_msg(client, recipient):
+    msg = os.environ["MSG"]
     logging.info("Sending message")
+
     msg_result = await client.send_message(recipient, msg)
     logging.info(msg_result)
 
 
 async def main():
+    api_id = os.environ["API_ID"]
+    api_hash = os.environ["API_HASH"]
+    my_phone_number = os.environ["MY_PHONE_NUMBER"]
+
+    client = TelegramClient(my_phone_number, api_id, api_hash)
+
     async with client:
         while True:
 
@@ -79,14 +82,15 @@ async def main():
                 await asyncio.sleep(hours * 60 * 60)
 
             recipient_phone = await get_random_recipient()
-            new_contact = await add_contact(recipient_phone)
+            new_contact = await add_contact(client, recipient_phone)
 
             if new_contact is not None:
-                await send_msg(new_contact.users[0])
+                await send_msg(client, new_contact.users[0])
 
             seconds = randint(300, 1800)
             logging.info(f"Sleeping for {seconds} seconds")
             await asyncio.sleep(seconds)
 
 
-client.loop.run_until_complete(main())
+if __name__ == "__main__":
+    asyncio.run(main())
