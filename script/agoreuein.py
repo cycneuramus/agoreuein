@@ -16,6 +16,11 @@ logging.basicConfig(
 )
 
 
+async def sleep_through_flood(error):
+    logging.info(f"Flood limit hit, sleeping for {error.seconds} seconds.")
+    await asyncio.sleep(error.seconds)
+
+
 async def get_random_recipient():
     phone_number_raw = requests.get("https://api.1920.in").json()
     return f"+{phone_number_raw}"
@@ -43,9 +48,8 @@ async def add_contact(client, recipient_phone):
         else:
             return new_contact
 
-    except errors.FloodWaitError as e:
-        logging.info(f"Flood limit hit, sleeping {e.seconds} seconds.")
-        await asyncio.sleep(e.seconds)
+    except errors.FloodWaitError as error:
+        sleep_through_flood(error)
 
 
 async def send_msg(client, recipient):
@@ -74,12 +78,16 @@ async def main():
                     await client.sign_in(my_phone_number, input("Enter the code: "))
 
             logging.info("Checking for account restriction")
-            me = await client.get_me()
+            try:
+                me = await client.get_me()
 
-            if me.restricted:
-                hours = 48
-                logging.error(f"Account restricted, sleeping {hours} hours")
-                await asyncio.sleep(hours * 60 * 60)
+                if me.restricted:
+                    hours = 48
+                    logging.error(f"Account restricted, sleeping {hours} hours")
+                    await asyncio.sleep(hours * 60 * 60)
+
+            except errors.FloodWaitError as error:
+                sleep_through_flood(error)
 
             recipient_phone = await get_random_recipient()
             new_contact = await add_contact(client, recipient_phone)
