@@ -17,7 +17,8 @@ logging.basicConfig(
 
 
 async def sleep_through_flood(error):
-    logging.info(f"Flood limit hit, sleeping for {error.seconds} seconds.")
+    minutes = round(error.seconds / 60)
+    logging.info(f"Flood limit hit, sleeping for {minutes} minutes.")
     await asyncio.sleep(error.seconds)
 
 
@@ -95,9 +96,10 @@ async def main():
             if new_contact is not None:
                 await send_msg(client, new_contact.users[0])
 
-            minutes = round(randint(1800, 3600) / 60)
+            seconds = randint(1800, 3600)
+            minutes = round(seconds / 60)
             logging.info(f"Sleeping for {minutes} minutes")
-            await asyncio.sleep(minutes)
+            await asyncio.sleep(seconds)
 
 
 if __name__ == "__main__":
