@@ -17,9 +17,10 @@ logging.basicConfig(
 
 
 async def sleep_through_flood(error):
-    minutes = round(error.seconds / 60)
+    seconds = error.seconds
+    minutes = round(seconds / 60)
     logging.info(f"Flood limit hit, sleeping for {minutes} minutes.")
-    await asyncio.sleep(error.seconds)
+    await asyncio.sleep(seconds)
 
 
 async def get_random_recipient():
@@ -48,7 +49,6 @@ async def add_contact(client, recipient_phone):
             logging.error(f"Failed to add contact {recipient_phone}")
         else:
             return new_contact
-
     except errors.FloodWaitError as error:
         sleep_through_flood(error)
 
@@ -70,7 +70,6 @@ async def main():
 
     async with client:
         while True:
-
             if not client.is_connected():
                 await client.connect()
 
@@ -86,7 +85,6 @@ async def main():
                     hours = 48
                     logging.error(f"Account restricted, sleeping {hours} hours")
                     await asyncio.sleep(hours * 60 * 60)
-
             except errors.FloodWaitError as error:
                 sleep_through_flood(error)
 
