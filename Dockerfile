@@ -15,6 +15,11 @@ RUN mkdir -p $SCRIPT_DIR
 ENV PYTHONPATH=$SCRIPT_DIR
 ENV PATH=/home/agoreuein/.local/bin:${PATH}
 
-RUN pip install requests telethon names
+RUN pip install \
+	names \
+	phone_gen \
+	requests \
+	telethon
+
 WORKDIR $SCRIPT_DIR
 ENTRYPOINT ["python", "agoreuein.py"]

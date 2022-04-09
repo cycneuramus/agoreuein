@@ -6,7 +6,7 @@ import os
 from random import randint
 
 import names
-import requests
+from phone_gen import PhoneNumber
 from telethon import TelegramClient, errors
 from telethon.tl.functions.contacts import ImportContactsRequest
 from telethon.tl.types import InputPhoneContact
@@ -24,8 +24,8 @@ async def sleep_through_flood(error):
 
 
 async def get_random_recipient():
-    phone_number_raw = requests.get("https://api.1920.in").json()
-    return f"+{phone_number_raw}"
+    p = PhoneNumber("RU")
+    return p.get_mobile()
 
 
 async def add_contact(client, recipient_phone):
@@ -47,6 +47,7 @@ async def add_contact(client, recipient_phone):
 
         if "user_id" not in new_contact.stringify():
             logging.error(f"Failed to add contact {recipient_phone}")
+            logging.debug(new_contact.stringify())
         else:
             return new_contact
     except errors.FloodWaitError as error:
@@ -80,6 +81,7 @@ async def main():
             logging.info("Checking for account restriction")
             try:
                 me = await client.get_me()
+                logging.debug(me)
 
                 if me.restricted:
                     hours = 48
