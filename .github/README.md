@@ -2,7 +2,7 @@
 
 > "The first casualty, when war comes, is truth."
 
-This is a Python script that periodically tries to send a message, pre-defined by you, to a random Russian phone number over Telegram. I wrote this as a proof-of-concept for trying to break the barrier of Russian state propaganda concerning the invasion of Ukraine. The inspiration – as well as the phone number API – comes from https://1920.in, developed by [squad303](https://github.com/squad303/squad303app).
+This is a Python script that periodically tries to send a message, pre-defined by you, to a random Russian phone number over Telegram. I wrote this as a proof-of-concept for trying to break the barrier of Russian state propaganda concerning the invasion of Ukraine. The inspiration comes from https://1920.in, developed by [squad303](https://github.com/squad303/squad303app).
 
 Note that not all selected phone numbers will be associated with a Telegram account. As such, error messages are to be expected.
 
