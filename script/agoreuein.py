@@ -12,7 +12,9 @@ from telethon.tl.functions.contacts import ImportContactsRequest
 from telethon.tl.types import InputPhoneContact
 
 logging.basicConfig(
-    format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s", level=logging.INFO
+    format="%(asctime)s %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+    level=logging.INFO,
 )
 
 
