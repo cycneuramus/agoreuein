@@ -98,7 +98,7 @@ async def main():
             if new_contact is not None:
                 await send_msg(client, new_contact.users[0])
 
-            seconds = randint(1800, 3600)
+            seconds = randint(300, 600)
             minutes = round(seconds / 60)
             logging.info(f"Sleeping for {minutes} minutes")
             await asyncio.sleep(seconds)
